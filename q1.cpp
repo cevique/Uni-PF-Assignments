@@ -67,7 +67,7 @@ int main(){
     // Dangerpoints
 
     int dangerPoints = Crowd + Game + Cameras + Darkness;
-    dangerpoints = (dangerpoints<0? 0 : dangerPoints);
+    dangerPoints = (dangerPoints<0? 0 : dangerPoints);
 
     // Surcharge
 
@@ -108,7 +108,61 @@ int main(){
 
     int gross = itemsAfterSurcharge + lateFee + guardToll + weightPenalty + wager;
     int net = ( 0 > (gross + injuryTax - allyRebate - calmRebate - favorDiscount)? 0 : (gross + injuryTax - allyRebate - calmRebate - favorDiscount)  );
-    int debtFee = ( (net>cash)? (80 + debt/20) : 0);
+    int DebtFee = ( (net>cash)? (80 + debt/20) : 0);
+    int Total = net + DebtFee;
+    Total = (Total<200? 200 : Total);
+    int Fees = lateFee + guardToll + weightPenalty + injuryTax + DebtFee;
+    int CashUsed = (cash<Total? cash : Total);
+    int Payable = Total - CashUsed;
+
+    // Survival Chance and Outcome
+
+    int SurvivalChance = 40;
+    SurvivalChance = (takeRope? SurvivalChance+(15<ropeM/2? 15 : ropeM/2) : SurvivalChance);
+    SurvivalChance = (takeBandages? SurvivalChance+(12<2*bandages? 12 : 2*bandages) : SurvivalChance );
+    SurvivalChance += stamina/4;
+    SurvivalChance = (card? SurvivalChance+8 : SurvivalChance-25);
+    SurvivalChance = (ally? SurvivalChance+5 : SurvivalChance);
+    SurvivalChance -= (0>packKg-carryCap? 0 : packKg-carryCap)/2;
+    SurvivalChance -= 5*(SurchargePct/10);
+    SurvivalChance -= 8*injuries;
+    SurvivalChance -= 4*(game-1);
+    SurvivalChance -= (DebtFee>0? 12:0);
+    SurvivalChance += (game==2? ( (takeNeedles and needles>=5)? 10 : 0) : game==4? ( (takeMarbles and marbles>=20)? 10 : 0 ) : game==5? ( (takeRope and ropeM>=10)? 10 : 0 ) : 0 );
+
+    SurvivalChance = (SurvivalChance>100? 100 : (SurvivalChance<0? 0 : SurvivalChance));
+
+    bool Outcome = SurvivalChance>=55;
+
+    // Prize and Final Balance
+
+    int prizePool = (456-playersLeft)*100;
+    int PrizeShare = (Survived? prizePool/playersLeft : 0) ;
+    int BetPayout = (Survived? (bet==1? (stake*3)/2 : bet==2? (stake*4*(SurvivalChance>=75)) : 0) : 0);
+    int FinalBalance = cash - Total + PrizeShare + BetPayout;
+
+    // Output
+
+    cout << "\nNeedleCost=" << needleCost;
+    cout << "\nBandageCost=" << bandageCost;
+    cout << "\nMarbleCost=" << marbleCost;
+    cout << "\nRopeCost=" << ropeCost;
+    cout << "\nDanger Points=" << dangerPoints;
+    cout << "\nSurchargePct=" << SurchargePct << "%";
+    cout << "\nLateFee=" << lateFee;
+    cout << "\nGuardToll=" << guardToll;
+    cout << "\nWeightPenalty=" << weightPenalty;
+    cout << "\nWager=" << wager;
+    cout << "\nFavorDiscount=" << favorDiscount;
+    cout << "\nFees=" << Fees;
+    cout << "\nTotal=" << Total;
+    cout << "\nCashUsed=" << CashUsed;
+    cout << "\nPayable=" << Payable;
+    cout << "\nSurvivalChance" << SurvivalChance;
+    cout << "\nOutcome=" << Outcome;
+    cout << "\nPrizeShare=" << PrizeShare;
+    cout << "\nBetPayout=" << BetPayout;
+    cout << "\nFinalBalance=" << FinalBalance;  
 
     return 0;   
 }
