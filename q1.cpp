@@ -11,24 +11,20 @@ int main(){
     bool cameras; cout<<"cameras {0,1}: "; cin>>cameras;
     bool takeNeedles; cout<<"takeNeedles {0,1}: "; cin>>takeNeedles;
     unsigned int needles=0;
-    if(takeNeedles){
-        cout<<"needles [0..40]: "; cin>>needles;
-    }
+    (takeNeedles)? cout<<"needles [0..40]: " : cout<<"";
+    (takeNeedles)? cin>>needles : cin.ignore();
     bool takeBandages; cout<<"takeBandages {0,1}: "; cin>>takeBandages;
     unsigned int bandages=0;
-    if(takeBandages){
-        cout<<"bandages [0..30]: "; cin>>bandages;
-    }
+    (takeBandages)? cout<<"bandages [0..30]: " : cout<<"";
+    (takeBandages)? cin>>bandages : cin.ignore();
     bool takeMarbles; cout<<"takeMarbles {0,1}: "; cin>>takeMarbles;
     unsigned int marbles=0;
-    if(takeMarbles){
-        cout<<"marbles [0..100] "; cin>>marbles;
-    }
+    (takeMarbles)? cout<<"marbles [0..100]: " : cout<<"";
+    (takeMarbles)? cin>>marbles : cin.ignore();
     bool takeRope; cout<<"takeRope {0,1}: "; cin>>takeRope;
     unsigned int ropeM=0;
-    if(takeRope){
-        cout<<"ropeM [0..60]: meters of rope: "; cin>>ropeM;
-    }
+    (takeRope)? cout<<"ropeM [0..60]: meters of rope: " : cout<<"";
+    (takeRope)? cin>>ropeM : cin.ignore();
     int packKg; cout<<"packKg [0..150]: "; cin>>packKg;
     int stamina; cout<<"stamina [0..100]: "; cin>>stamina;
     int playersLeft; cout<<"playersLeft [3..456]: " cin>>playersLeft;
@@ -42,24 +38,26 @@ int main(){
     bool ally; cout<<"ally {0,1}: "; cin>>ally;
 
     int needlePriceBase=150, bandagePriceBase=350, marblePriceBase=60, ropePriceBase=120;
-    if(type=='A') ropePriceBase=100; else if(type=='T') needlePriceBase=120; else if(type=='G') marblePriceBase=45;
+    ropePriceBase = (type=='A')? 100 : ropePriceBase;
+    needlePriceBase = (type=='T')? 120 : needlePriceBase;
+    marblePriceBase = (type=='G')? 45 : marblePriceBase;
 
     double needleCost=0, marbleCost=0, bandageCost=0, ropeCost=0;
-    if(needles>10) needleCost=10*needlePriceBase+(n-10)*(needlePriceBase*75/100); else needleCost=needles*needlePriceBase;
-    if(marbles>50) marbleCost=50*marblePriceBase+(n-50)*(marblePriceBase*50/100); else marbleCost=marbles*marblePriceBase;
+    needleCost = ( needles>10? 10*needlePriceBase+(needles-10)*(needlePriceBase*75/100) : needles*needlePriceBase);
+    marbleCost= ( marbles>50? 50*marblePriceBase+(marbles-50)*(marblePriceBase*50/100) : marbles*marblePriceBase);
     bandageCost = (bandages - bandages/3) * bandagePriceBase;
 
     int alertAdj = guardAlert;
-    if(takeMarbles) alertAdj += marbles/5;
-    if(takeRope) alertAdj += ropeM/3;
-    if(lightsOn) alertAdj += 10;
-    if(cameras) alertAdj += 5;
+    alertAdj += takeMarbles*marbles/5;
+    alertAdj += takeRope*ropeM/3;
+    alertAdj += lightsOn*10;
+    alertAdj += cameras*5;
 
-    if(alertAdj>100) alertAdj = 100;
+    alertAdj = (alertAdj>100)? 100 : alertAdj;
 
     int Crowd=0, Alert=0, Game=0, Cameras=0, Darkness=0;
-    if(playersLeft>300) Crowd = 3; else if(playersLeft>150) Crowd = 2; else if(playersLeft>50) Crowd = 1; else Crowd = 0;
-    if(alertAdj>=70) Alert = 2; else if(alertAdj>=40) Alert = 1; else Alert = 0;
+    Crowd = (playersLeft>300? 3 : playersLeft>150? 2 : playersLeft>50? 1 : 0);
+    Alert = (alertAdj>=70? 2 : alertAdj>=40? 1 : 0);
     Game = (game>=4? 2 :  (game>=2? 1 : 0) );
     Cameras = (cameras? 1 : 0);
     Darkness = (!lightOn? -1 : 0);
