@@ -12,7 +12,7 @@
                             cout << "* ";
                         }
                         else {
-                            cout << ' ';
+                            cout << "  ";
                         }
                     }
                     cout << '\n';
