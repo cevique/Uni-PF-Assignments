@@ -10,9 +10,15 @@ int main(){
     int halfHeight = 3 * size / 2 + 1;
     int halfWidth = 7 * size / 4;
     int tip = 2 * halfHeight - 1;
+    int figureWidth = 2 * tip + 1;
+    int termWidth = 120;
+    int leftPad = (termWidth > figureWidth) ? (termWidth - figureWidth) / 2 : 0;
 
     for (int row = -halfHeight; row <= halfHeight; row++)
     {
+        for (int p = 0; p < leftPad; p++)
+            cout << ' ';
+
         int distanceY = (row < 0) ? -row : row;
         int distanceFromTip = halfHeight - distanceY;
         int outerEdge = 2 * distanceFromTip;
@@ -45,11 +51,10 @@ int main(){
                 && distanceSquared > 134 * 134)
                 face = true;
 
-            // Eyes
-            int eyeEquation = (horizontal - 62) * (horizontal - 62) * 2601
-                            + (vertical + 57) * (vertical + 57) * 529;
-
-            if (eyeEquation <= 529 * 2601)
+            // Eyes - Rectangular, scaled with input
+            // Right eye: scaledX in [4, 8], scaledY in [-5, -1]
+            // Left eye: scaledX in [-8, -4], scaledY in [-5, -1]
+            if (absScaledX >= 4 && absScaledX <= 8 && scaledY >= -5 && scaledY <= -1)
                 face = true;
 
             // Sad mouth
