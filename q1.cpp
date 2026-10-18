@@ -2,40 +2,140 @@
 using namespace std;
 int main(){
 
-    int type; cout<<"Player type: {A, T, G} "; cin>>type;
-    int game; cout<<"\nGame {1..5}:"; cout<<"\n1. Red Light Green Light\n2. Honeycomb\n3. Tug of War\n4. Marbles\n5. Glass Bridge\n"; cin>>game;
-    int timeLeft; cout<<"\nMinutes until the game starts.\ntimeLeft[0..120]: "; cin>>timeLeft;
-    int guardAlert; cout<<"guardAlert [0..100]: "; cin>>guardAlert;
-    int injuries; cout<<"Injuries [0..3]: "; cin>>injuries;
-    bool lightsOn; cout<<"ligtsOn {0,1}: "; cin>>lightsOn;
-    bool cameras; cout<<"cameras {0,1}: "; cin>>cameras;
-    bool takeNeedles; cout<<"takeNeedles {0,1}: "; cin>>takeNeedles;
+    char type; cout<<"Player type: {A, T, G} ";
+    while (!(cin >> type) || (type != 'A' && type != 'T' && type != 'G')) {
+        cout << "Invalid input. Enter a value in [A, T, G]: ";
+        cin.clear(); cin.ignore(100, '\n');
+    }
+    int game; cout<<"\nGame {1..5}:"; cout<<"\n1. Red Light Green Light\n2. Honeycomb\n3. Tug of War\n4. Marbles\n5. Glass Bridge\n";
+    while (!(cin >> game) || game < 1 || game > 5) {
+        cout << "Invalid input. Enter a value in [1..5]: ";
+        cin.clear(); cin.ignore(100, '\n');
+    }
+    int timeLeft; cout<<"\nMinutes until the game starts.\ntimeLeft[0..120]: ";
+    while (!(cin >> timeLeft) || timeLeft < 0 || timeLeft > 120) {
+        cout << "Invalid input. Enter a value in [0..120]: ";
+        cin.clear(); cin.ignore(100, '\n');
+    }
+    int guardAlert; cout<<"guardAlert [0..100]: ";
+    while (!(cin >> guardAlert) || guardAlert < 0 || guardAlert > 100) {
+        cout << "Invalid input. Enter a value in [0..100]: ";
+        cin.clear(); cin.ignore(100, '\n');
+    }
+    int injuries; cout<<"Injuries [0..3]: ";
+    while (!(cin >> injuries) || injuries < 0 || injuries > 3) {
+        cout << "Invalid input. Enter a value in [0..3]: ";
+        cin.clear(); cin.ignore(100, '\n');
+    }
+    bool lightsOn; cout<<"ligtsOn {0,1}: ";
+    while (!(cin >> lightsOn) || lightsOn < 0 || lightsOn > 1) {
+        cout << "Invalid input. Enter a value in [0..1]: ";
+        cin.clear(); cin.ignore(100, '\n');
+    }
+    bool cameras; cout<<"cameras {0,1}: ";
+    while (!(cin >> cameras) || cameras < 0 || cameras > 1) {
+        cout << "Invalid input. Enter a value in [0..1]: ";
+        cin.clear(); cin.ignore(100, '\n');
+    }
+    bool takeNeedles; cout<<"takeNeedles {0,1}: ";
+    while (!(cin >> takeNeedles) || takeNeedles < 0 || takeNeedles > 1) {
+        cout << "Invalid input. Enter a value in [0..1]: ";
+        cin.clear(); cin.ignore(100, '\n');
+    }
     unsigned int needles=0;
     (takeNeedles)? cout<<"needles [0..40]: " : cout<<"";
-    (takeNeedles)? cin>>needles : cin.ignore();
-    bool takeBandages; cout<<"takeBandages {0,1}: "; cin>>takeBandages;
+    while (takeNeedles && (!(cin >> needles) || needles > 40)) {
+        cout << "Invalid input. Enter a value in [0..40]: ";
+        cin.clear(); cin.ignore(100, '\n');
+    }
+    (!takeNeedles)? cin.ignore(100, '\n') : (void)0;
+    bool takeBandages; cout<<"takeBandages {0,1}: ";
+    while (!(cin >> takeBandages) || takeBandages < 0 || takeBandages > 1) {
+        cout << "Invalid input. Enter a value in [0..1]: ";
+        cin.clear(); cin.ignore(100, '\n');
+    }
     unsigned int bandages=0;
     (takeBandages)? cout<<"bandages [0..30]: " : cout<<"";
-    (takeBandages)? cin>>bandages : cin.ignore();
-    bool takeMarbles; cout<<"takeMarbles {0,1}: "; cin>>takeMarbles;
+    while (takeBandages && (!(cin >> bandages) || bandages > 30)) {
+        cout << "Invalid input. Enter a value in [0..30]: ";
+        cin.clear(); cin.ignore(100, '\n');
+    }
+    (!takeBandages)? cin.ignore(100, '\n') : (void)0;
+    bool takeMarbles; cout<<"takeMarbles {0,1}: ";
+    while (!(cin >> takeMarbles) || takeMarbles < 0 || takeMarbles > 1) {
+        cout << "Invalid input. Enter a value in [0..1]: ";
+        cin.clear(); cin.ignore(100, '\n');
+    }
     unsigned int marbles=0;
     (takeMarbles)? cout<<"marbles [0..100]: " : cout<<"";
-    (takeMarbles)? cin>>marbles : cin.ignore();
-    bool takeRope; cout<<"takeRope {0,1}: "; cin>>takeRope;
+    while (takeMarbles && (!(cin >> marbles) || marbles > 100)) {
+        cout << "Invalid input. Enter a value in [0..100]: ";
+        cin.clear(); cin.ignore(100, '\n');
+    }
+    (!takeMarbles)? cin.ignore(100, '\n') : (void)0;
+    bool takeRope; cout<<"takeRope {0,1}: ";
+    while (!(cin >> takeRope) || takeRope < 0 || takeRope > 1) {
+        cout << "Invalid input. Enter a value in [0..1]: ";
+        cin.clear(); cin.ignore(100, '\n');
+    }
     unsigned int ropeM=0;
     (takeRope)? cout<<"ropeM [0..60]: meters of rope: " : cout<<"";
-    (takeRope)? cin>>ropeM : cin.ignore();
-    int packKg; cout<<"packKg [0..150]: "; cin>>packKg;
-    int stamina; cout<<"stamina [0..100]: "; cin>>stamina;
-    int playersLeft; cout<<"playersLeft [3..456]: " cin>>playersLeft;
-    int bet; cout<<"bet {0,1,2}: 0 = No bet, 1 = SAFE, 2 = RISKY : "; cin>>bet;
-    int stake; cout<<"stake [0..2000]"; cin>>stake;
+    while (takeRope && (!(cin >> ropeM) || ropeM > 60)) {
+        cout << "Invalid input. Enter a value in [0..60]: ";
+        cin.clear(); cin.ignore(100, '\n');
+    }
+    (!takeRope)? cin.ignore(100, '\n') : (void)0;
+    int packKg; cout<<"packKg [0..150]: ";
+    while (!(cin >> packKg) || packKg < 0 || packKg > 150) {
+        cout << "Invalid input. Enter a value in [0..150]: ";
+        cin.clear(); cin.ignore(100, '\n');
+    }
+    int stamina; cout<<"stamina [0..100]: ";
+    while (!(cin >> stamina) || stamina < 0 || stamina > 100) {
+        cout << "Invalid input. Enter a value in [0..100]: ";
+        cin.clear(); cin.ignore(100, '\n');
+    }
+    int playersLeft; cout<<"playersLeft [3..456]: ";
+    while (!(cin >> playersLeft) || playersLeft < 3 || playersLeft > 456) {
+        cout << "Invalid input. Enter a value in [3..456]: ";
+        cin.clear(); cin.ignore(100, '\n');
+    }
+    int bet; cout<<"bet {0,1,2}: 0 = No bet, 1 = SAFE, 2 = RISKY : ";
+    while (!(cin >> bet) || bet < 0 || bet > 2) {
+        cout << "Invalid input. Enter a value in [0..2]: ";
+        cin.clear(); cin.ignore(100, '\n');
+    }
+    int stake; cout<<"stake [0..2000]";
+    while (!(cin >> stake) || stake < 0 || stake > 2000) {
+        cout << "Invalid input. Enter a value in [0..2000]: ";
+        cin.clear(); cin.ignore(100, '\n');
+    }
     stake = (!bet? 0 : stake );
-    int favor; cout<<"favor {0,1,2,3}: 0 = None, 1 = INSIDER, 2 = HUSH, 3 = MEDPASS : "; cin>>favor;
-    int cash; cout<<"cash [0..6000]: "; cin>>cash;
-    int debt; cout<<"debt [0..3000]: "; cin>>debt;
-    bool card; cout<<"card {0,1}: "; cin>>card;
-    bool ally; cout<<"ally {0,1}: "; cin>>ally;
+    int favor; cout<<"favor {0,1,2,3}: 0 = None, 1 = INSIDER, 2 = HUSH, 3 = MEDPASS : ";
+    while (!(cin >> favor) || favor < 0 || favor > 3) {
+        cout << "Invalid input. Enter a value in [0..3]: ";
+        cin.clear(); cin.ignore(100, '\n');
+    }
+    int cash; cout<<"cash [0..6000]: ";
+    while (!(cin >> cash) || cash < 0 || cash > 6000) {
+        cout << "Invalid input. Enter a value in [0..6000]: ";
+        cin.clear(); cin.ignore(100, '\n');
+    }
+    int debt; cout<<"debt [0..3000]: ";
+    while (!(cin >> debt) || debt < 0 || debt > 3000) {
+        cout << "Invalid input. Enter a value in [0..3000]: ";
+        cin.clear(); cin.ignore(100, '\n');
+    }
+    bool card; cout<<"card {0,1}: ";
+    while (!(cin >> card) || card < 0 || card > 1) {
+        cout << "Invalid input. Enter a value in [0..1]: ";
+        cin.clear(); cin.ignore(100, '\n');
+    }
+    bool ally; cout<<"ally {0,1}: ";
+    while (!(cin >> ally) || ally < 0 || ally > 1) {
+        cout << "Invalid input. Enter a value in [0..1]: ";
+        cin.clear(); cin.ignore(100, '\n');
+    }
 
     int needlePriceBase=150, bandagePriceBase=350, marblePriceBase=60, ropePriceBase=120;
     ropePriceBase = (type=='A')? 100 : ropePriceBase;
