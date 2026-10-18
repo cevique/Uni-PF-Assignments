@@ -428,5 +428,8 @@ int main(){
         case 1:
             break;
     }
+
+    cout << endl << "Murdoch path: Boiler Room -> Cargo Hold -> Dining Saloon -> Crow's Nest -> Dining Saloon -> Cargo Hold -> Third Class\n";
+    cout << "Mary path: Boiler Room -> Cargo Hold -> Boiler Room -> Third Class -> Bridge -> Lifeboat Deck\n";
     return 0;
 }
