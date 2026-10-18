@@ -48,7 +48,7 @@ int main(){
         cout << "Invalid input. Enter a value in [0..40]: ";
         cin.clear(); cin.ignore(100, '\n');
     }
-    (!takeNeedles)? cin.ignore(100, '\n') : (void)0;
+    (!takeNeedles)? (void)cin.ignore(100, '\n') : (void)0;
     bool takeBandages; cout<<"takeBandages {0,1}: ";
     while (!(cin >> takeBandages) || takeBandages < 0 || takeBandages > 1) {
         cout << "Invalid input. Enter a value in [0..1]: ";
@@ -60,7 +60,7 @@ int main(){
         cout << "Invalid input. Enter a value in [0..30]: ";
         cin.clear(); cin.ignore(100, '\n');
     }
-    (!takeBandages)? cin.ignore(100, '\n') : (void)0;
+    (!takeBandages)? (void)cin.ignore(100, '\n') : (void)0;
     bool takeMarbles; cout<<"takeMarbles {0,1}: ";
     while (!(cin >> takeMarbles) || takeMarbles < 0 || takeMarbles > 1) {
         cout << "Invalid input. Enter a value in [0..1]: ";
@@ -72,7 +72,7 @@ int main(){
         cout << "Invalid input. Enter a value in [0..100]: ";
         cin.clear(); cin.ignore(100, '\n');
     }
-    (!takeMarbles)? cin.ignore(100, '\n') : (void)0;
+    (!takeMarbles)? (void)cin.ignore(100, '\n') : (void)0;
     bool takeRope; cout<<"takeRope {0,1}: ";
     while (!(cin >> takeRope) || takeRope < 0 || takeRope > 1) {
         cout << "Invalid input. Enter a value in [0..1]: ";
@@ -84,7 +84,7 @@ int main(){
         cout << "Invalid input. Enter a value in [0..60]: ";
         cin.clear(); cin.ignore(100, '\n');
     }
-    (!takeRope)? cin.ignore(100, '\n') : (void)0;
+    (!takeRope)? (void)cin.ignore(100, '\n') : (void)0;
     int packKg; cout<<"packKg [0..150]: ";
     while (!(cin >> packKg) || packKg < 0 || packKg > 150) {
         cout << "Invalid input. Enter a value in [0..150]: ";
@@ -146,6 +146,7 @@ int main(){
     needleCost = ( needles>10? 10*needlePriceBase+(needles-10)*(needlePriceBase*75/100) : needles*needlePriceBase);
     marbleCost= ( marbles>50? 50*marblePriceBase+(marbles-50)*(marblePriceBase*50/100) : marbles*marblePriceBase);
     bandageCost = (bandages - bandages/3) * bandagePriceBase;
+    ropeCost = ropeM * ropePriceBase;
 
     int alertAdj = guardAlert;
     alertAdj += takeMarbles*marbles/5;
@@ -160,7 +161,7 @@ int main(){
     Alert = (alertAdj>=70? 2 : alertAdj>=40? 1 : 0);
     Game = (game>=4? 2 :  (game>=2? 1 : 0) );
     Cameras = (cameras? 1 : 0);
-    Darkness = (!lightOn? -1 : 0);
+    Darkness = (!lightsOn? -1 : 0);
 
     // Dangerpoints
 
@@ -186,14 +187,14 @@ int main(){
     
     int base = ( type=='A'? 40 : (type=='T'? 30 : (type=='G'? 35 : 0 ) ) );
     int carryCap;
-    carryCap = (ally? base + 10 : 0);
+    carryCap = base + (ally? 10 : 0);
     int weightPenalty = ( ( 500 < 25 * ( 0 > (packKg-carryCap)? 0 : (packKg-carryCap)) )? 500 : 25* ( 0 > (packKg-carryCap)? 0 : (packKg-carryCap)));
     int wager = stake;
 
     //  Rebates and Injury Tax
 
     int allyRebate = (ally? 60 : 0);
-    int calmRebate = ((!injuries? and stamina>=70) 40 : 0);
+    int calmRebate = ((!injuries and stamina>=70)? 40 : 0);
     int injuryTax = (injuries==1? 30 : injuries==2? 90 : injuries==3? 200 : 0);
 
     // Favors
@@ -235,8 +236,8 @@ int main(){
     // Prize and Final Balance
 
     int prizePool = (456-playersLeft)*100;
-    int PrizeShare = (Survived? prizePool/playersLeft : 0) ;
-    int BetPayout = (Survived? (bet==1? (stake*3)/2 : bet==2? (stake*4*(SurvivalChance>=75)) : 0) : 0);
+    int PrizeShare = (Outcome? prizePool/playersLeft : 0) ;
+    int BetPayout = (Outcome? (bet==1? (stake*3)/2 : bet==2? (stake*4*(SurvivalChance>=75)) : 0) : 0);
     int FinalBalance = cash - Total + PrizeShare + BetPayout;
 
     // Output
@@ -256,11 +257,11 @@ int main(){
     cout << "\nTotal=" << Total;
     cout << "\nCashUsed=" << CashUsed;
     cout << "\nPayable=" << Payable;
-    cout << "\nSurvivalChance" << SurvivalChance;
+    cout << "\nSurvivalChance=" << SurvivalChance;
     cout << "\nOutcome=" << Outcome;
     cout << "\nPrizeShare=" << PrizeShare;
     cout << "\nBetPayout=" << BetPayout;
     cout << "\nFinalBalance=" << FinalBalance;  
-
+    cout << endl;`
     return 0;   
 }
