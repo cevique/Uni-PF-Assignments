@@ -1,0 +1,77 @@
+#include <iostream>
+using namespace std;
+
+int main()
+{
+    int n;
+    cout << "Enter size (e.g. 16): ";
+    cin >> n;
+
+    int H = 3 * n / 2 + 1;      // half height of the diamond      (25 for n=16)
+    int W = 7 * n / 4;          // half width of the straight sides (28 for n=16)
+    int tip = 2 * H - 1;        // far end of the middle line       (49 for n=16)
+
+    for (int i = -H; i <= H; i++)
+    {
+        int a = (i < 0) ? -i : i;           // distance from the middle row
+        int r = H - a;                      // distance from the nearest tip
+        int hi = 2 * r;                     // outer edge of the X border
+        if (hi > W) hi = W;
+        int lo = 2 * r - 4;                 // inner edge of the X border
+        if (lo > W - 2) lo = W - 2;
+        int fi = i * 16 / n;                // row in "n=16" units
+        int v = fi * 19;                    // vertical pixel scale
+
+        for (int j = -tip; j <= tip; j++)
+        {
+            int b = (j < 0) ? -j : j;       // distance from the centre column
+            int jn = j * 16 / n;
+            int jb = (jn < 0) ? -jn : jn;
+            int u = jb * 10;                // horizontal pixel scale (symmetric)
+            int d = u * u + v * v;
+            bool face = false;
+
+            // face outline (thick circle)
+            if (fi >= -8 && fi <= 8 && d <= 175 * 175 && d > 134 * 134)
+                face = true;
+
+            // eyes (two filled ovals)
+            int ex = (u - 62) * (u - 62) * 2601 + (v + 57) * (v + 57) * 529;
+            if (ex <= 529 * 2601)
+                face = true;
+
+            // sad mouth (upper half of an oval ring)
+            int mo = u * u * 4225 + (v - 95) * (v - 95) * 9025;
+            int mi = u * u * 1225 + (v - 95) * (v - 95) * 3600;
+            if (v >= 20 && v <= 95 && mo <= 9025 * 4225 && mi > 3600 * 1225)
+                face = true;
+
+            // blood drips
+            if (jb == 23 && fi >= 1 && fi <= 3) face = true;
+            if (jb == 17 && fi >= 5 && fi <= 8) face = true;
+            if (jb == 12 && fi >= 8 && fi <= 10) face = true;
+            if (jb == 6 && fi >= 9 && fi <= 10) face = true;
+            if (jb <= 1 && fi >= 9 && fi <= 10) face = true;
+
+            if (face)
+                cout << "\033[31m#\033[0m";
+            else if (b >= lo && b <= hi)
+                cout << "\033[97mX\033[0m";            // X border
+            else if (b >= 2 * r - 7 && b <= 2 * r - 3)
+                cout << "\033[36m+\033[0m";            // diagonal + line / side wings
+            else if (a == 0 && b > W && b <= tip)
+                cout << "\033[36m+\033[0m";            // middle horizontal line
+            else if (b < lo)
+            {
+                if ((r + b) % 2 == 1)
+                    cout << "\033[90m.\033[0m";        // dotted interior
+                else
+                    cout << " ";
+            }
+            else
+                cout << " ";
+        }
+        cout << "\n";
+    }
+    return 0;
+}
