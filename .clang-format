@@ -1,0 +1,36 @@
+---
+# Predefined base style options: LLVM, Google, Chromium, Mozilla, WebKit
+BasedOnStyle: LLVM
+
+# Language configuration target
+Language: Cpp
+
+# Indentation rules
+IndentWidth: 4
+TabWidth: 4
+UseTab: Never
+
+# Code layout limits
+ColumnLimit: 100
+
+# Pointer and reference alignment (e.g., int* p instead of int *p)
+DerivePointerAlignment: false
+PointerAlignment: Left
+
+# Brace wrapping style (Attach to control statements like 'if', 'for', 'class')
+BreakBeforeBraces: Attach
+
+# Clean up inclusions automatically
+SortIncludes: true
+
+# Clean up empty lines and trailing spaces
+MaxEmptyLinesToKeep: 1
+
+# Standard used for formatting features (e.g., Cpp11, Cpp14, Cpp20, Latest)
+Standard: Latest
+
+# Control spaces around operators and braces
+SpaceBeforeParens: ControlStatements
+SpaceAfterCStyleCast: false
+SpacesInContainerLiterals: false
+---
