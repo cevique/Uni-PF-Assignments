@@ -14,6 +14,7 @@ int main(){
 
         int left=0;
         int right=2*i;
+        char c;
 
         for(int sp=n-1-i; sp>0; sp--){
             cout << ' ';
@@ -22,12 +23,23 @@ int main(){
         for(int j=0; j<=right; j++){
             int dist = (right-j < j-left? right-j : j-left);
             dist %= 4;
-            switch(dist){
-                case 0: cout << '*'; break;
-                case 1: cout << '.'; break;
-                case 2: cout << 'O'; break;
-                case 3: cout << '-';
+            if( ((n-1)/2) % 2 ){
+                switch(dist){
+                    case 0: c='O'; break;
+                    case 1: c='-'; break;
+                    case 2: c='*'; break;
+                    case 3: c='.';
+                }
             }
+            else{
+                switch(dist){
+                    case 0: c = '*'; break;
+                    case 1: c = '-'; break;
+                    case 2: c = 'O'; break;
+                    case 3: c = '.';
+                }
+            }
+            cout << c;
             
         }
         cout << '\n';
@@ -38,6 +50,7 @@ int main(){
         
         int left=0;
         int right=2*i-2;
+        char c;
 
         for(int sp=0; sp<n-i; sp++){
             cout << ' ';
@@ -46,12 +59,23 @@ int main(){
         for(int j=0; j<=right; j++){
             int dist = (right-j < j-left? right-j : j-left);
             dist %= 4;
-            switch(dist){
-                case 0: cout << '*'; break;
-                case 1: cout << '.'; break;
-                case 2: cout << 'O'; break;
-                case 3: cout << '-';
+            if( ((n-1)/2) % 2 ){
+                switch(dist){
+                    case 0: c='O'; break;
+                    case 1: c='-'; break;
+                    case 2: c='*'; break;
+                    case 3: c='.';
+                }
             }
+            else{
+                switch(dist){
+                    case 0: c = '*'; break;
+                    case 1: c = '-'; break;
+                    case 2: c = 'O'; break;
+                    case 3: c = '.';
+                }
+            }
+            cout << c;
             
         }
         cout << '\n';
