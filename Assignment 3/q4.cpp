@@ -2,45 +2,51 @@
 #include <cmath>
 using namespace std;
 
+int fibonacci_sum(int f){
+    int a=1, b=1;
+    int s=0, t=0;
+    for(int i=0; i<f; i++){
+        s += a;
+        t = b;
+        b += a;
+        a = t;
+    }
+    return s;
+}
+
 int main(){
     int n; cout << "N: "; cin >> n;
     int base; cout << "Base: "; cin >> base;
     int seed; cout << "Seed: "; cin >> seed;
     int seedrow = n-1;
     int seedcol = n-1;
-    int goldenRatio[n-1] = {};
-    int fact=0, dact=1, t=0;
-    int current = 0;
-    for(int i=0; i<n-1; i++){
-        t = dact;
-        dact += fact;
-        fact = t;
-        goldenRatio[i] = current + fact%base;
-        current = goldenRatio[i];
-    }
-    
-    int grid[2*n-1][2*n-1] = {};
-    grid[seedrow][seedcol] = seed;
+    int value;
     
     for(int i=0; i<2*n-1; i++){
         for(int j=0; j<2*n-1; j++){
-            int dist = max( abs(i - seedrow), abs(j - seedcol) );
-            if(dist == 0) continue;
-            if(dist >= 1 && dist <= n-1){
-                int gr = goldenRatio[dist-1];
-                if( (i < seedrow) or ( i == seedrow and j >= seedcol)){
-                    grid[i][j] = seed + gr;
-                }
-                else if( (i > seedrow) or ( i == seedrow and j <= seedcol) ){
-                    grid[i][j] = seed - gr;
-                }
+            int r = i-seedrow;
+            int c = j-seedcol;
+            if( i <= seedrow and j>=seedcol ){
+                value = seed + fibonacci_sum( max( abs(r), abs(c) ) );
             }
-        }
-    }
-    
-    for(int i=0; i<2*n-1; i++){
-        for(int j=0; j<2*n-1; j++){
-            cout << ( base==16? 'A'+grid[i][j]%10 : grid[i][j] ) << ' ';
+            else if( i > seedrow and j <= seedcol ){
+                value = seed - fibonacci_sum( max( abs(r), abs(c) ) );
+            }
+            else if( i <= seedrow and j < seedcol ){
+                if( c >= r )
+                    value = seed + fibonacci_sum(-r);
+                else
+                    value = seed + 2*fibonacci_sum(-r) - fibonacci_sum(-c);
+            }
+            else {
+                if( c <= r )
+                    value = seed - fibonacci_sum(r);
+                else
+                    value = seed + fibonacci_sum(c) - 2*fibonacci_sum(r);
+            }
+            value = (value%base + base) % base;
+            if(value < 10) cout << value << ' ';
+            else cout << (char)('A' + (value-10) ) << ' '; 
         }
         cout << '\n';
     }
